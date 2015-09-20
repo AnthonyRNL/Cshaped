@@ -1,6 +1,5 @@
 console.log("loinkes")
 var song, analyzer;
-// var h;
 var c;
 var db;
 var d;
@@ -19,9 +18,13 @@ var vol;
 var freq;
 var en;
 var fcount;
-
-
+var w;
+var columns;
+var rows;
+var next;
+var h;
 var currentSelection = {}
+
 function preload() {
   // song = p5.Score(a,a,b,a)
   c = loadSound('scale/c.mp3');
@@ -56,39 +59,45 @@ function preload() {
 }
 
 function setup() {
-  h = windowHeight
   createCanvas(windowWidth, windowWidth);
-
-  // create a new Amplitude analyzer
-  analyzer = new p5.Amplitude();
-  fft = new p5.FFT();
-
-  // Patch the input to an volume analyzer
-  // analyzer.setInput(c);
-  for(var key in codes){
-    analyzer.setInput(codes[key]["note"])
-    fft.setInput(codes[key]["note"])
+  h = height/2
+  w = 40
+  columns = floor(width/w);
+  rows = floor(height/w);
+  board = new Array(columns);
+  for(var i = 0; i < board.length; i++){
+    board[i] = new Array(rows);
+  }
+  next = new Array(columns);
+  for(var i = 0; i < next.length; i++){
+    next[i] = new Array(rows)
   }
 
+  analyzer = new p5.Amplitude();
 
-
-
+  init()
 }
 
 function draw() {
   background(255);
   // Get the overall volume (between 0 and 1.0)
-  freq = fft.analyze()
+  generate();
+  // console.log("rgba(" + Math.abs(255 - colors.red) + "," +  Math.abs(255 - colors.green) + "," +  Math.abs(255 - colors.blue) + ", 0.25)")
+  for(var i = 0; i < columns; i++){
+    for(var j = 0; j < rows; j++){
+      if(board[i][j] == 1){
+        fill("rgba(" + Math.abs(255 - colors.red) + "," +  Math.abs(255 - colors.green) + "," +  Math.abs(255 - colors.blue) + ", 0.45)");
+      } else {
+        fill(255)
+      }
+        noStroke();
+        ellipse(i*w,j*w,w-1,w-1)
+    }
+  }
 
   vol = analyzer.getLevel();
-  var sel = 0;
-  // console.log(en)
-  // console.log(currentSelection)
 
-  fcount += 1
-
-    // if(currentSelection.length > 0){
-    //   sel = currentSelection[0][1]
+  fcount += 1 //this is to delay to volume interpretor so that the values can stick to t array
 
       if(vol < .02 && fcount > 20){
         currentSelection = {}
@@ -99,33 +108,38 @@ function draw() {
         }
       }
 
-  console.log(colors)
   fill("rgba(" + colors.red + "," + colors.green + "," + colors.blue + "," + vol * 2 + ")")
   noStroke()
   beginShape();
 
-  // var w = width/2
-  var h = height/2
   for(x in currentSelection){
       var sel = currentSelection[x]
-      console.log(h*sel["bez1"]*vol*2)
-
       vertex(h+(h*sel["vert1"]*vol*2), h+(h*sel["vert2"]*vol*2))
       bezierVertex(h+(h*sel["bez1"]*vol*2),h+(h*sel["bez2"]*vol*2),h+(h*sel["bez3"]*vol*2),h+(h*sel["bez4"]*vol*2),h*sel["bez5"],h*sel["bez6"])
-    // }
-
-
   }
-endShape(CLOSE);
+  endShape(CLOSE);
+  //this is for expansion of shape
+  if(Object.keys(currentSelection).length > 2){
+    console.log("hiii")
+    noFill()
+    stroke("rgba(" + colors.red + "," + colors.green + "," + colors.blue + "," + vol + ")")
+    strokeWeight(5)
+    beginShape();
 
-
+    for(x in currentSelection){
+        var sel = currentSelection[x]
+        vertex(h+(h*sel["vert1"]*fcount), h+(h*sel["vert2"]*fcount))
+        bezierVertex(h+(h*sel["bez1"]*fcount),h+(h*sel["bez2"]*fcount),h+(h*sel["bez3"]*fcount),h+(h*sel["bez4"]*fcount),h*sel["bez5"],h*sel["bez6"])
+    }
+    endShape(CLOSE);
+  }
+  combo()
 }
 
 function keyPressed(){
   for(var key in codes){
     if(keyCode == key){
 
-      console.log(currentSelection)
       console.log(vol)
       if(codes[key].color === "red" && colors.red < 255){
         colors.red += 35
@@ -137,14 +151,65 @@ function keyPressed(){
       fcount = 0
       if(!currentSelection[key]){
         currentSelection[key] = codes[key]
-        // currentSelection.slice(-1).
       }
       for(x in currentSelection){
-      // debugger
         currentSelection[x].note.play()
       }
+    }
+  }
+      console.log(Object.keys(currentSelection).length)
 
+}
 
+function init(){
+  for(var i = 0; i < columns; i++){
+    for(var j = 0; j < rows; j++){
+      if(i == 0 || j == 0 || i == columns-1 || j == rows-1){
+        board[i][j] = 0
+      } else {
+        board[i][j] = floor(random(2))
+        next[i][j] = 0
+      }
+    }
+  }
+}
+
+function generate(){
+  for(var x = 1; x < columns - 1; x++){
+    for(var y = 0; y < rows - 1; y++){
+      var neighbors = 0;
+      for(var i = -1; i <= 1; i++){
+        for(var j = -1; j <= 1; j++){
+          neighbors += board[x+i][y+j]
+        }
+      }
+      neighbors -= board[x][y];
+
+      if((board[x][y] == 1) && (neighbors < 2)){
+        next[x][y] = 0;
+      } else if((board[x][y] == 1) && (neighbors > 3)){
+        next[x][y] = 0;
+      } else if((board[x][y] == 0) && (neighbors == 3)){
+        next[x][y] = 1;
+      } else {
+        next[x][y] = board[x][y]
+      }
+    }
+  }
+  var temp = board;
+  board = next;
+  next = temp;
+}
+
+function mousePressed(){
+  init()
+}
+
+//this function searches in the combos object to see if the currentSelection matches any of them. and if they do, visual orgasm.
+function combo(){
+  for(k in combos){
+    if(Object.keys(currentSelection).sort().join() === combos[k].sort().join()){
+      init()
     }
   }
 

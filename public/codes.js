@@ -10,6 +10,8 @@ var Key = function(color,vert1,vert2,bez1,bez2,bez3,bez4,bez5,bez6){
   this.bez5 = bez5;
   this.bez6 = bez6;
 }
+
+//change shape by already having 12 points, and you're just manipulating vectors
 var codes = {
   65: new Key("red",1,1,-1,-1,1,-1,1,1),
   87: new Key("blue",1,-0.5,-0.5,1,-1,0,1,1),
@@ -24,6 +26,10 @@ var codes = {
   85: {},
   74: {},
   75: new Key("green",-1,-1,1,1,-1,1,1,1)
+}
+
+var combos = {
+  "major": [65,68,71,75]
 }
 
 var colors = {
