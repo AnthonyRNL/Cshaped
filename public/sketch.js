@@ -107,40 +107,80 @@ function draw() {
           "blue": 115
         }
       }
+  //create main shape
+  mainShape()
 
+  //create expansion of shape
+  expandedShape()
+
+  combo()
+
+}
+
+function singleNote(){
+  var vertices = []
+  var size = 2;
+  for(x in currentSelection){
+    var temp = currentSelection[x].vert
+    var values = []
+    temp.forEach(function(x){
+      values.push(x)
+    })
+    while(values.length > 0){
+      vertices.push(values.splice(0,size))
+    }
+    // debugger
+  }
+
+      beginShape()
+        vertices.forEach(function(x){
+          vertex(h+(h*x[0]*vol*2), h+(h*x[1]*vol*2))
+
+        })
+
+      endShape(CLOSE)
+
+}
+
+function mainShape(){
   fill("rgba(" + colors.red + "," + colors.green + "," + colors.blue + "," + vol * 2 + ")")
   noStroke()
-  beginShape();
-
-  for(x in currentSelection){
-      var sel = currentSelection[x]
-      vertex(h+(h*sel["vert1"]*vol*2), h+(h*sel["vert2"]*vol*2))
-      bezierVertex(h+(h*sel["bez1"]*vol*2),h+(h*sel["bez2"]*vol*2),h+(h*sel["bez3"]*vol*2),h+(h*sel["bez4"]*vol*2),h*sel["bez5"],h*sel["bez6"])
-  }
-  endShape(CLOSE);
-  //this is for expansion of shape
-  if(Object.keys(currentSelection).length > 2){
-    console.log("hiii")
-    noFill()
-    stroke("rgba(" + colors.red + "," + colors.green + "," + colors.blue + "," + vol + ")")
-    strokeWeight(5)
+  if(Object.keys(currentSelection).length === 1){
+    singleNote()
+  } else {
     beginShape();
-
-    for(x in currentSelection){
-        var sel = currentSelection[x]
-        vertex(h+(h*sel["vert1"]*fcount), h+(h*sel["vert2"]*fcount))
-        bezierVertex(h+(h*sel["bez1"]*fcount),h+(h*sel["bez2"]*fcount),h+(h*sel["bez3"]*fcount),h+(h*sel["bez4"]*fcount),h*sel["bez5"],h*sel["bez6"])
-    }
+      for(x in currentSelection){
+          var sel = currentSelection[x]
+          vertex(h+(h*sel["vert"][0]*vol*2), h+(h*sel["vert"][1]*vol*2))
+          bezierVertex(h+(h*sel["vert"][2]*vol*2),h+(h*sel["vert"][3]*vol*2),
+          h+(h*sel["vert"][4]*vol*2),h+(h*sel["vert"][5]*vol*2),
+          h*sel["vert"][6],h*sel["vert"][7])
+      }
     endShape(CLOSE);
   }
-  combo()
 }
+
+function expandedShape(){
+  if(Object.keys(currentSelection).length > 2){
+    noFill()
+    stroke("rgba(" + colors.red + "," + colors.green + "," + colors.blue + "," + vol + ")")
+    strokeWeight(3)
+    beginShape();
+      for(x in currentSelection){
+          var sel = currentSelection[x]
+          vertex(h+(h*sel["vert"][0]*(fcount/4)), h+(h*sel["vert"][1]*(fcount/4)))
+          bezierVertex(h+(h*sel["vert"][2]*(fcount/4)),h+(h*sel["vert"][3]*(fcount/4)),
+          h+(h*sel["vert"][4]*(fcount/4)),h+(h*sel["vert"][5]*(fcount/4)),
+          h*sel["vert"][6],h*sel["vert"][7])
+      }
+    endShape(CLOSE);
+  }
+}
+
 
 function keyPressed(){
   for(var key in codes){
     if(keyCode == key){
-
-      console.log(vol)
       if(codes[key].color === "red" && colors.red < 255){
         colors.red += 35
       } else if(codes[key].color === "blue" && colors.blue < 255){
@@ -152,13 +192,13 @@ function keyPressed(){
       if(!currentSelection[key]){
         currentSelection[key] = codes[key]
       }
-      for(x in currentSelection){
-        currentSelection[x].note.play()
-      }
+      //uncomment this to have all notes in currentSelection played per keypress. else, play only the key pressed
+      // for(x in currentSelection){
+      //   currentSelection[x].note.play()
+      // }
+      codes[key].note.play()
     }
   }
-      console.log(Object.keys(currentSelection).length)
-
 }
 
 function init(){
@@ -201,16 +241,22 @@ function generate(){
   next = temp;
 }
 
-function mousePressed(){
-  init()
-}
+// function mousePressed(){
+//   // debugger
+//   init()
+// }
 
 //this function searches in the combos object to see if the currentSelection matches any of them. and if they do, visual orgasm.
 function combo(){
   for(k in combos){
-    if(Object.keys(currentSelection).sort().join() === combos[k].sort().join()){
+    // debugger
+    if(Object.keys(currentSelection).sort().join() === combos[k]["keys"].sort().join()){
       init()
+      combos[k].change()
+      // debugger
     }
   }
 
 }
+
+//need a convert function to have shapes alter by input.
