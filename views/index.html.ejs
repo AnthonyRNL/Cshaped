@@ -4,6 +4,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.4.9/p5.js" charset="utf-8"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.4.9/addons/p5.dom.js" charset="utf-8"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.4.9/addons/p5.sound.js" charset="utf-8"></script>
+    <link href='https://fonts.googleapis.com/css?family=Work+Sans:200' rel='stylesheet' type='text/css'>
     <script src="sketch.js" charset="utf-8"></script>
     <script src="codes.js" charset="utf-8"></script>
     <script src="semantic/dist/semantic.min.js"></script>
@@ -12,11 +13,26 @@
     <script src="script.js" charset="utf-8"></script>
   </head>
   <body>
-    <button class="circular ui icon button" id="info">
-
-        <i class="info circle icon"></i>
-    
+    <button class="circular ui icon button" id="info" onclick="location.href='#openModal';">
+      <i class="info circle icon"></i>
     </button>
+    <div id="openModal" class="modalDialog">
+      <div  id="content">
+        <a href="#close" title="Close" class="close">o</a>
+        <div class="ui grid">
+          <div id="prev" class="four wide column">
+            <i class="massive angle left icon"></i>
+          </div>
+          <div id="wrapper" class="eight wide column">
+            hi
+          </div>
+          <div id="next" class="four wide column">
+            <i class="massive angle right icon"></i>
+          </div>
+        </div>
+      </div>
+
+    </div>
   </body>
 
 </html>

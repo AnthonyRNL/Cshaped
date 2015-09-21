@@ -1,5 +1,63 @@
+body {
+  font-family:'Work Sans';
+}
 #info {
   background-color: rgba(175,175,140,0.3);
   float: right;
   position:fixed;
 }
+
+h2 {
+  font-family: 'Work Sans';
+}
+#wrapper {
+  text-align: center;
+  font-size: 30px;
+  margin-left: -8%;
+  margin-top: 45px;
+}
+#content {
+  background: rgba(255, 0, 0, 0);
+}
+.modalDialog {
+  position:fixed;
+  font-family:'Work Sans';
+  top:0;
+  right:0;
+  bottom:0;
+  left:0;
+  background: rgba(175,175,140,0.3);
+  z-index:9999;
+  opacity:0;
+  pointer-events: none;
+}
+
+.modalDialog:target {
+  opacity:1;
+  pointer-events: auto;
+}
+
+.modalDialog > div {
+  width: 90%;
+  position: relative;
+  margin: 20% auto;
+  padding: 5px 20px 13px 20px;
+  border-radius: 60px;
+  background: #fff
+}
+
+.close {
+	background: #606061;
+	color: #FFFFFF;
+	line-height: 25px;
+	position: absolute;
+	right: -12px;
+	text-align: center;
+	top: -10px;
+	width: 24px;
+	font-weight: bold;
+	border-radius: 12px;
+	box-shadow: 1px 1px 3px #000;
+}
+
+.close:hover { background: #444; }
