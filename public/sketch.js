@@ -27,9 +27,9 @@ var currentSelection = {}
 
 function preload() {
   // song = p5.Score(a,a,b,a)
-  c = loadSound('scale/c.mp3');
-  db = loadSound('scale/db.mp3');
-  d = loadSound('scale/d.mp3');
+  c = loadSound('scale/C.mp3');
+  db = loadSound('scale/Db.mp3');
+  d = loadSound('scale/D.mp3');
   eb = loadSound('scale/Eb.mp3');
   e = loadSound('scale/E.mp3');
   f = loadSound('scale/F.mp3');
