@@ -129,8 +129,7 @@ function singleNote(){
     while(values.length > 0){
       vertices.push(values.splice(0,size))
     }
-    // debugger
-  }
+    }
 
       beginShape()
         vertices.forEach(function(x){
@@ -241,10 +240,6 @@ function generate(){
   next = temp;
 }
 
-// function mousePressed(){
-//   // debugger
-//   init()
-// }
 
 //this function searches in the combos object to see if the currentSelection matches any of them. and if they do, visual orgasm.
 function combo(){
@@ -258,5 +253,3 @@ function combo(){
   }
 
 }
-
-//need a convert function to have shapes alter by input.
