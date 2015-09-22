@@ -142,7 +142,7 @@ function singleNote(){
 }
 
 function mainShape(){
-  fill("rgba(" + colors.red + "," + colors.green + "," + colors.blue + "," + vol * 2 + ")")
+  fill("rgba(" + colors.red + "," + colors.green + "," + colors.blue + "," + vol * 3 + ")")
   noStroke()
   if(Object.keys(currentSelection).length === 1){
     singleNote()
