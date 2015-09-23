@@ -19,7 +19,7 @@ h2 {
 #content {
   background: rgba(255, 0, 0, 0);
 }
-.modalDialog {
+.mD {
   position:fixed;
   font-family:'Work Sans';
   top:0;
@@ -32,12 +32,12 @@ h2 {
   pointer-events: none;
 }
 
-.modalDialog:target {
+.mD:target {
   opacity:1;
   pointer-events: auto;
 }
 
-.modalDialog > div {
+.mD > div {
   width: 90%;
   position: relative;
   margin: 20% auto;
@@ -46,7 +46,7 @@ h2 {
   background: #fff
 }
 
-.close {
+.c {
 	background: #606061;
 	color: #FFFFFF;
 	line-height: 25px;
@@ -60,4 +60,4 @@ h2 {
 	box-shadow: 1px 1px 3px #000;
 }
 
-.close:hover { background: #444; }
+.c:hover { background: #444; }
