@@ -1,6 +1,6 @@
 $(document).ready(function(){
     console.log("scrtip loinked")
-    var content = ["Hi", "Sounds, colors and shapes here", "All within a chromatic octave beginning in C", "Try pressing a key from left to right, A to K","OoOoO sounds...","OOooOo colors...","OoOoOO shapes...", "Look around for the sharps and flats","Now try a C major chord", "*hint* 'A', 'D', 'G' or 'A', 'D', 'G', 'K' *hint*", "Click '>'' and go crazy with different chords!"]
+    var content = ["Hi", "There are sounds, colors, and shapes here", "All within a chromatic octave beginning in C", "Try pressing a key from left to right, A to K","OoOoO sounds...","OOooOo colors...","OoOoOO shapes...", "Look around for the sharps and flats","Wait for the background to reset and play a C major chord", "*hint* 'A', 'D', 'G' or 'A', 'D', 'G', 'K' *hint*", "Click that danged blinking arrow and go crazy with different chords!"]
     var msg = 0
     $("#wrapper")[0].textContent = content[msg]
 
@@ -9,7 +9,6 @@ $(document).ready(function(){
 
         msg += 1
         $("#wrapper")[0].textContent = content[msg]
-        console.log("works?")
       }  else if(msg === content.length - 1){
         $("#container").hide()
       }
