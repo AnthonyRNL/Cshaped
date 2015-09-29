@@ -1,3 +1,4 @@
+//setting position coordinates for shapes and bezier
 var Key = function(id,color,vert){
   this.id = id;
   this.color = color;
@@ -11,8 +12,7 @@ var Key = function(id,color,vert){
   this.bez5 = vert[6];
   this.bez6 = vert[7];
 }
-
-//change shape by already having 12 points, and you're just manipulating vectors
+//mapping the keyboard with an id, a color, and a shape
 var codes = {
   65: new Key(1,"red",[-1,-1,1,-1,1,1,-1,1]),//a
   87: new Key(2,"blue",[-1,-1,1,-1,0,1]),//w
@@ -29,6 +29,8 @@ var codes = {
   75: new Key(13,"red",[-2,-2,2,-2,0.5,1,-0.5,1])//k
 }
 
+//setting specific shapes to come up when specific chords are pressed
+//much room to add, perhaps adding specific shapes for certain intervals
 var combos = {
   "major/c": {
     "keys": [65,68,71,75],
@@ -86,8 +88,7 @@ var combos = {
 }
 
 
-//there are 12 possible combinations for intervals that are a single semitone apartx
-
+//setting initial color
 var colors = {
   "red":80,
   "green": 80,

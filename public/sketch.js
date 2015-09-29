@@ -1,4 +1,5 @@
 console.log("loinkes")
+
 var song, analyzer;
 var c;
 var db;
@@ -25,8 +26,8 @@ var next;
 var h;
 var currentSelection = {}
 
+//loading all the sound files to be useable in the draw function, then inserting it into the codes object
 function preload() {
-  // song = p5.Score(a,a,b,a)
   c = loadSound('scale/C.mp3');
   db = loadSound('scale/Db.mp3');
   d = loadSound('scale/D.mp3');
@@ -58,6 +59,7 @@ function preload() {
 
 }
 
+//drawing the grid to setup "game of life" and setting up variable to analyze sound output
 function setup() {
   createCanvas(windowWidth, windowWidth);
   h = height/2
@@ -117,9 +119,11 @@ function draw() {
 
 }
 
+//displaying default hard-coded shape for single note
 function singleNote(){
   var vertices = []
   var size = 2;
+  //making some array rearraingments to split up vert array per currentSelection into 2, so that each pair can be used as a new vertex
   for(x in currentSelection){
     var temp = currentSelection[x].vert
     var values = []
@@ -130,7 +134,7 @@ function singleNote(){
       vertices.push(values.splice(0,size))
     }
     }
-
+    //using the newly made array, and turning each array into a vertex to make a complete shape
       beginShape()
         vertices.forEach(function(x){
           vertex(h+(h*x[0]*vol*2), h+(h*x[1]*vol*2))
@@ -159,6 +163,7 @@ function mainShape(){
   }
 }
 
+//this is the outline of that shape that grows out as the volume diminishes
 function expandedShape(){
   if(Object.keys(currentSelection).length > 2){
     noFill()
@@ -175,7 +180,6 @@ function expandedShape(){
     endShape(CLOSE);
   }
 }
-
 
 function keyPressed(){
   for(var key in codes){
@@ -200,6 +204,7 @@ function keyPressed(){
   }
 }
 
+//this function initializes the "game of life"
 function init(){
   for(var i = 0; i < columns; i++){
     for(var j = 0; j < rows; j++){
@@ -213,6 +218,7 @@ function init(){
   }
 }
 
+//notes the different states of the game of life, switches on init
 function generate(){
   for(var x = 1; x < columns - 1; x++){
     for(var y = 0; y < rows - 1; y++){
